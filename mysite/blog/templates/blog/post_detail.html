@@ -3,15 +3,18 @@
 	{% block body_block %}
 		<h1 class="posttitle loader">{{ post.title }}</h1>
 
-		{% if post.published_date %}
-			<div class="date postdate">
-				{{ post.published_date }}
-			</div>
+		{% if user.is_authenticated and user == post.author %}
+			{% if post.published_date %}
+				<div>
+					{{ post.published_date }}
+				</div>
 
-		{% else %}
-			<a class="btn btn-outline-dark" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+			{% else %}
+				<a class="btn btn-outline-dark" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+			{% endif %}
 		{% endif %}
-
+		
+		<p>Posted By: <strong>{{ post.author }}</strong></p>
 		<p class="postcontent">{{ post.text|safe|linebreaksbr }}</p>
 
 		{% if user.is_authenticated and user == post.author %}
@@ -30,19 +33,27 @@
 					{% if user.is_authenticated or comment.approved_comment %}
 
 						{% if user.is_authenticated and user == post.author %}
+
 							{{ comment.created_date }}
 							{% if not comment.approved_comment %}
+
+								<p>{{ comment.text|safe|linebreaks }}</p>
+								<p>Commented By: <strong>{{ comment.author }}</strong></p>
 								<a class="btn btn-primary" href="{% url 'comment_approve' pk=comment.pk %}"><span class="fa fa-check"></span></a>
 								<a class="btn btn-primary" href="{% url 'comment_remove' pk=comment.pk %}"><span class="fa fa-remove"></span></a>
+
 							{% endif %}
 						{% endif %}
 
 						{% if comment.approved_comment %}
+
 							<p>{{ comment.text|safe|linebreaks }}</p>
 							<p>Posted By: <strong>{{ comment.author }}</strong></p>
+
 						{% endif %}
 
 					{% endif %}
+					
 						{% empty %}
 							<p>No comments Posted.</p>
 			{% endfor %}
