@@ -1,0 +1,50 @@
+{% extends 'blog/base.html' %}
+
+	{% block body_block %}
+		<h1 class="posttitle loader">{{ post.title }}</h1>
+
+		{% if post.published_date %}
+			<div class="date postdate">
+				{{ post.published_date }}
+			</div>
+
+		{% else %}
+			<a class="btn btn-outline-dark" href="{% url 'post_publish' pk=post.pk %}">Publish</a>
+		{% endif %}
+
+		<p class="postcontent">{{ post.text|safe|linebreaksbr }}</p>
+
+		{% if user.is_authenticated and user == post.author %}
+			<a class="btn btn-primary" href="{% url 'post_edit' pk=post.pk %}"><span class="fa fa-pencil"></span></a>
+			<a class="btn btn-primary" href="{% url 'post_remove' pk=post.pk %}"><span class="fa fa-remove"></span></a>
+		{% endif %}
+
+		<hr>
+		{% if user.is_authenticated %}
+			<a class="btn btn-primary btn-comment" href="{% url 'add_comment_to_post' pk=post.pk %}">Add Comment</a>
+		{% endif %}
+
+		<div class="container">
+			{% for comment in post.comments.all %}
+				<br>
+					{% if user.is_authenticated or comment.approved_comment %}
+
+						{% if user.is_authenticated and user == post.author %}
+							{{ comment.created_date }}
+							{% if not comment.approved_comment %}
+								<a class="btn btn-primary" href="{% url 'comment_approve' pk=comment.pk %}"><span class="fa fa-check"></span></a>
+								<a class="btn btn-primary" href="{% url 'comment_remove' pk=comment.pk %}"><span class="fa fa-remove"></span></a>
+							{% endif %}
+						{% endif %}
+
+						{% if comment.approved_comment %}
+							<p>{{ comment.text|safe|linebreaks }}</p>
+							<p>Posted By: <strong>{{ comment.author }}</strong></p>
+						{% endif %}
+
+					{% endif %}
+						{% empty %}
+							<p>No comments Posted.</p>
+			{% endfor %}
+		</div>
+	{% endblock %}
