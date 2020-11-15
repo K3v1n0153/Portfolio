@@ -1,72 +1,108 @@
 <!DOCTYPE html>
 {% load static %}
 <html>
+
 <head>
-	<meta charset="utf-8">
-	<title>KBLOG</title>
+    <meta charset="utf-8">
+    <title>KBLOG</title>
 
-	<!-- Latest compiled and manified CSS -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- Latest compiled and manified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<!-- Alternative to Bootstrap 4 font_awesome -->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- Alternative to Bootstrap 4 font_awesome -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-	<!-- MEDIUM STYLE EDITOR -->
-	<script src="//cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js"></script>
-	<link rel="stylesheet" href="//cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+    <!-- MEDIUM STYLE EDITOR -->
+    <script src="//cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css" type="text/css"
+        media="screen" charset="utf-8">
 
-	<!-- Custom CSS -->
-	<link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
 
-	<!-- Fonts -->
-	 <link href="https://fonts.googleapis.com/css?family=Montserrat|Russo+One" rel="stylesheet">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Russo+One" rel="stylesheet">
 
 </head>
 
 <body class="loader">
 
-	<!-- NAVBAR -->
-	<nav class="navbar navbar-expand-lg bg-light techfont">
-		<div class="container">
-			<div class="navbar-nav align-items-center">
-				<a class="navbar-brand bigbrand" href="{% url 'post_list' %}">My Tech Blog</a>
-				<a class="nav-item nav-link" href="{% url 'about' %}">About</a>
-				<a class="nav-item nav-link" href="https://www.github.com">Github</a>
-				<a class="nav-item nav-link" href="https://www.linkedin.com">LinkedIn</a>
-			</div>
-			<div class="navbar-nav align-items-center ml-auto">
-				{% if user.is_superuser %}
-					<a class="nav-item nav-link" href="{% url 'post_new' %}">New Post</a>
-					<a class="nav-item nav-link" href="{% url 'post_draft_list' %}">Drafts</a>
-					<a class="nav-item nav-link" href="{% url 'admin:index' %}">Admin</a>
-					<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-					<a>Welcome: {{ user.username }}</a>
-				{% elif user.is_authenticated %}
-					<a class="nav-item nav-link" href="{% url 'post_new' %}">New Post</a>
-					<a class="nav-item nav-link" href="{% url 'post_draft_list' %}">Drafts</a>
-					<a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-					<a>Welcome: {{ user.username }}</a>
-				{% else %}
-					<a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-					<a class="nav-item nav-link" href="{% url 'user_login' %}" aria-label="Login">
-						<span class="fa fa-user" aria-hidden="true"></span>
-					</a>
-				{% endif %}
-			</div>
-		</div>
-	</nav>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-custom bg-light techfont">
+        <div class="container">
+            <a class="navbar-brand bigbrand" href="{% url 'post_list' %}">My Tech Blog</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"><img src="https://gaminyol.com/img/hello.svg"/></span></button>
 
-	<!-- The actual blog posts -->
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8">
-					<div class="blog_posts">
-						{% block body_block %}
-						{% endblock %}
-					</div>
-				</div>
-			</div>
-		</div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'about' %}">About</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="https://www.github.com" target="_blank">Github</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="https://www.linkedin.com" target="_blank">LinkedIn</a>
+                    </li>
+                    <li class="nav-item active">
+                        {% if user.is_superuser %}
+                        <a class="nav-link" href="{% url 'admin:index' %}" target="_blank">Admin</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'post_new' %}">New Post</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'post_draft_list' %}">Drafts</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    <li>
+                        <a>Welcome: {{ user.username }}</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'register' %}">Register</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-item nav-link" href="{% url 'user_login' %}" aria-label="Login"><span
+                                class="fa fa-user" aria-hidden="true"></span></a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
 
+    <!-- The actual blog posts -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="blog_posts">
+                    {% block body_block %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 </body>
-</html>

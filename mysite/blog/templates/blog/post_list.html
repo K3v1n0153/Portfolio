@@ -5,6 +5,7 @@
 			
 			{% for post in post_list %}
 				<div>
+					{% if post.published_date or user == post.author %}
 					<h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
 
 					<div>
@@ -12,6 +13,7 @@
 					</div>
 					
 					<a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approve_comments.count }}</a>
+					{% endif %}
 				</div>
 			{% endfor %}
 		</div>

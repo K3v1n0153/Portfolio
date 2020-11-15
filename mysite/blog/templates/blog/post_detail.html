@@ -3,7 +3,7 @@
 	{% block body_block %}
 		<h1 class="posttitle loader">{{ post.title }}</h1>
 
-		{% if user.is_authenticated and user == post.author %}
+		{% if user.is_authenticated or user == post.author %}
 			{% if post.published_date %}
 				<div>
 					{{ post.published_date }}

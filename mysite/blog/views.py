@@ -36,6 +36,11 @@ class CreatePostView(LoginRequiredMixin, CreateView):
 	login_url = '/login/'
 	redirect_field_name = 'blog/post_detail.html'
 
+	def form_valid(self, form):
+
+		form.instance.author = self.request.user 
+		return super().form_valid(form)
+
 class PostUpdateView(LoginRequiredMixin, UpdateView):
 
 	model = Post 
